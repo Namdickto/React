@@ -6,9 +6,8 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
     "test": "jest",
-    "server": "json-server --watch db.json --port 3000"
+    "start": "json-server --watch db.json --port 3000"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.3.2",
@@ -16,6 +15,7 @@
     "@react-navigation/native": "^7.0.18",
     "@react-navigation/native-stack": "^7.3.2",
     "@react-navigation/stack": "^7.2.2",
+    "json-server": "^1.0.0-beta.3",
     "react": "19.0.0",
     "react-native": "0.78.1",
     "react-native-elements": "^3.4.3",
