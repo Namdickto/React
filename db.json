@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "d82a",
+      "email": "1",
+      "hoten": "1",
+      "password": "1"
+    }
+  ],
+  "carts": [
+    {
+      "id": "166c",
+      "userId": "d82a",
+      "items": []
+    }
+  ]
+}
