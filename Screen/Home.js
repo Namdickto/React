@@ -11,11 +11,15 @@ import {
   ImageBackground,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { useTheme } from '../comp/MyTheme';
 import Slideshow from '../comp/Slideshow';
+import {Provider, useDispatch, useSelector} from 'react-redux'
 import { useNavigation } from '@react-navigation/native'; // Import navigation
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Import icon
+
+import { fetchProducts } from '../redux/ProductAction';
+import BASE_URL from '../config/config';
 
 const Home = () => {
   const { theme, toggleTheme } = useTheme();
@@ -24,17 +28,25 @@ const Home = () => {
   const [isSelected, setIsSelected] = useState(null);
   const [thoigian, settime] = useState(59);
   const [comment, setComment] = useState('');
+  const listProduct = useSelector(state => state.listProductInStore.listProduct)
+  const dispatch = useDispatch()
 
-  const dulieu = [
-    { id: 1, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Chó', price: 300, mota: 'Siêu đẹp trai' },
-    { id: 2, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Mèo', price: 400, mota: 'Dễ thương lắm nè!' },
-    { id: 3, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Lợn', price: 350, mota: 'Hồng hào và dễ thương!' },
-    { id: 4, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Lợn', price: 350, mota: 'Hồng hào và dễ thương!' },
-    { id: 5, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Lợn', price: 350, mota: 'Hồng hào và dễ thương!' },
-    { id: 6, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Lợn', price: 350, mota: 'Hồng hào và dễ thương!' },
-    { id: 7, image: 'https://i.pinimg.com/736x/cb/54/10/cb5410ae82bb789a203348c7fb1f7e75.jpg', name: 'Lợn', price: 350, mota: 'Hồng hào và dễ thương!' },
-  ];
 
+  useEffect(()=>{
+    if(listProduct.length === 0){
+      dispatch(fetchProducts())
+    }
+      
+  },[dispatch,listProduct])
+
+  const slideNgang =[
+    {image:'https://i.pinimg.com/736x/92/7f/f8/927ff8bd4b7825c07442e026ffe8b71a.jpg'},
+    {image:'https://i.pinimg.com/736x/81/ea/66/81ea667df46b0902b2dee0b67b34bc6c.jpg'},
+    {image:'https://i.pinimg.com/736x/ad/48/d8/ad48d8fc2e5e5a6a66a1d71715b5281e.jpg'},
+    {image:'https://i.pinimg.com/736x/81/bd/a6/81bda6f015ff23b90bf1a05176a6da4d.jpg'},
+    {image:'https://i.pinimg.com/736x/3d/31/b2/3d31b2160b862e6adf946942fed0c308.jpg'},
+    {image:'https://i.pinimg.com/736x/3d/2c/71/3d2c71abc87afe0ad9371bfdf6223535.jpg'},
+  ]
   const openModal = (item) => {
     setIsSelected(item);
     setModal(true);
@@ -47,8 +59,65 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+const userID = useSelector((state) => state.listProductInStore.user?.id); // Lấy userID từ Redux Store
+ 
+  const addToCart = async (item) => {
+    const product = {
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      id: item.id,
+    };
+  
+    try {
+      const res = await fetch(`${BASE_URL}/carts?userId=${userID}`);
+      const data = await res.json();
+      console.log('data:', data);
+  
+      if (data.length > 0) {
+        const cart = data[0];
+  
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng hay chưa
+        const existingProductIndex = cart.items.findIndex((cartItem) => cartItem.id === product.id);
+  
+        if (existingProductIndex !== -1) {
+          // Nếu sản phẩm đã tồn tại, tăng số lượng lên 1
+          cart.items[existingProductIndex].quantity += 1;
+        } else {
+          // Nếu sản phẩm chưa tồn tại, thêm sản phẩm mới với số lượng là 1
+          cart.items.push({ ...product, quantity: 1 });
+        }
+  
+        // Cập nhật giỏ hàng trên server
+        await fetch(`${BASE_URL}/carts/${cart.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cart),
+        });
+  
+        Alert.alert('Đã cập nhật giỏ hàng!');
+      } else {
+        // Nếu giỏ hàng chưa tồn tại, tạo giỏ hàng mới
+        await fetch(`${BASE_URL}/carts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: userID,
+            items: [{ ...product, quantity: 1 }],
+          }),
+        });
+  
+        Alert.alert('Đã tạo giỏ hàng và thêm sản phẩm!');
+      }
+    } catch (error) {
+      console.error('Lỗi thêm vào giỏ hàng:', error);
+      Alert.alert('Lỗi khi thêm vào giỏ hàng');
+    }
+  };
+  
   return (
     <ScrollView style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
+    <View style={{backgroundColor:theme=='light'?'rgb(117, 178, 239)':'#6666FF',padding:20,height:300}}>
       {/* Icon giỏ hàng */}
       <TouchableOpacity
         style={styles.cartIcon}
@@ -58,10 +127,10 @@ const Home = () => {
       </TouchableOpacity>
 
       {/* Banner */}
-      <View style={{ borderBottomWidth: 1, paddingBottom: 10 }}>
+      <View style={{  paddingBottom: 10 }}>
         <Slideshow />
       </View>
-
+      <View style={{flexDirection:'row'}}>
       {/* Timer */}
       <ImageBackground source={require('../img/x_tra.png')} style={styles.timerBackground}>
         <View style={styles.timerContainer}>
@@ -72,10 +141,21 @@ const Home = () => {
           <Text style={styles.timerText}>{thoigian}</Text>
         </View>
       </ImageBackground>
-
-      {/* Danh sách sản phẩm */}
+      <View>
+        {/* Slide trượt bằng tay */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.slider}>
+          {slideNgang.map((item) => (
+            <TouchableOpacity key={item.id} style={styles.slideItem}>
+              <Image source={{ uri: item.image }} style={styles.slideImage} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+      </View>
+      </View>
+      <View style={{backgroundColor:theme=='light'?'white':"black",marginTop:-50,borderTopRightRadius:30,borderTopLeftRadius:30,padding:10}}>
       <FlatList
-        data={dulieu}
+        data={listProduct}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2} // Hiển thị 2 cột
         contentContainerStyle={styles.flatListContainer}
@@ -90,7 +170,7 @@ const Home = () => {
           </TouchableOpacity>
         )}
       />
-
+  </View>
       <Modal visible={modal} animationType="slide" transparent={false}>
         <View style={styles.fullModalContainer}>
           {isSelected && (
@@ -111,16 +191,16 @@ const Home = () => {
 
               {/* Nội dung chi tiết sản phẩm */}
               <ScrollView style={styles.scrollViewContent}>
-                <View style={styles.modalContent}>
+                <View style={[styles.modalContent,{backgroundColor:theme=='light'?'white':'black'}]}>
                   {/* Tiêu đề sản phẩm */}
-                  <Text style={styles.modalTitle}>{isSelected.name}</Text>
-
+                  <Text style={[styles.modalTitle,{color:theme=='light'?'black':'white'}]}>{isSelected.name}</Text>
+                  <Text style={[styles.modalTitle,{color:theme=='light'?'red':'white'}]}>{isSelected.price}K</Text>
                   {/* Mô tả sản phẩm */}
-                  <Text style={styles.modalDesc}>{isSelected.mota}</Text>
+                  <Text style={[styles.modalDesc,{color:theme=='light'?'black':'white'}]}>{isSelected.mota}</Text>
 
                   {/* Input bình luận */}
                   <TextInput
-                    style={styles.commentInput}
+                    style={[styles.commentInput,{backgroundColor:theme=='light'?'white':'gray'}]}
                     placeholder="Nhập bình luận của bạn..."
                     placeholderTextColor="#888"
                     multiline
@@ -143,8 +223,8 @@ const Home = () => {
                   <TouchableOpacity
                     style={styles.addToCartButton}
                     onPress={() => {
-                      // Chức năng thêm vào giỏ hàng (để trống)
-                      alert('Đã thêm vào giỏ hàng!');
+                      addToCart(isSelected)
+
                     }}
                   >
                     <Text style={styles.addToCartButtonText}>Thêm vào giỏ hàng</Text>
@@ -164,7 +244,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
   light: {
     backgroundColor: '#CCCCCC',
@@ -194,7 +274,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#444',
   },
   image: {
-    width: 100,
+    width: 120,
     height: 100,
     borderRadius: 10,
   },
@@ -213,10 +293,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     padding: 10,
+    width: 100,
+    borderRadius: 15, // Bo góc
+    overflow: 'hidden', // Đảm bảo hình ảnh bên trong cũng được bo góc
   },
   timerContainer: {
     flexDirection: 'row',
     height: 20,
+    borderRadius:20
   },
   timerText: {
     backgroundColor: 'black',
@@ -227,11 +311,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
-    zIndex: 10,
+    zIndex: 50,
     backgroundColor: '#fff',
     padding: 10,
     borderRadius: 50,
-    elevation: 5,
+    
+   
   },
   modalContainer: {
     flex: 1,
@@ -344,5 +429,25 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     paddingBottom: 20, // Khoảng cách dưới cùng
+  },
+  slider: {
+    marginTop: 5,
+    paddingHorizontal: 10,
+    width:'210'
+  },
+  slideItem: {
+    marginRight: 15,
+    alignItems: 'center',
+  },
+  slideImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
+  slideText: {
+    marginTop: 5,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });

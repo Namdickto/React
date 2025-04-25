@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import BASE_URL from '../config/config';
 
 
 const Register = () => {
@@ -11,20 +12,32 @@ const Register = () => {
   const [password2, setPassword2] = useState("");
 
   const dangky = async () => {
-    if (password !== password2) {
-      alert("Mật khẩu không khớp!");
-      return;
-    }
-
-    const newUser = {
-      email: email,
-      hoten : hoten,
-      password : password,
-    };
-
     try {
+      // Lấy danh sách người dùng từ API
+      const res = await fetch(`${BASE_URL}/users`);
+      const users = await res.json();
+
+      // Kiểm tra email trùng lặp
+      const isEmailTaken = users.some((user) => user.email === email);
+      if (isEmailTaken) {
+        alert("Email đã được sử dụng!");
+        return;
+      }
+
+      // Kiểm tra mật khẩu khớp
+      if (password !== password2) {
+        alert("Mật khẩu không khớp!");
+        return;
+      }
+
       // Tạo user mới
-      const userRes = await fetch('http://192.168.10.7:3000/users', {
+      const newUser = {
+        email: email,
+        hoten: hoten,
+        password: password,
+      };
+
+      const userRes = await fetch(`${BASE_URL}/users`, {
         method: 'POST',
         headers: { 'Content-type': 'Application/json' },
         body: JSON.stringify(newUser),
@@ -33,8 +46,8 @@ const Register = () => {
       if (userRes.ok) {
         const createdUser = await userRes.json();
 
-        // Tạo cart mới cho user
-        const cartRes = await fetch('http://192.168.10.7:3000/carts', {
+        // Tạo giỏ hàng mới cho user
+        const cartRes = await fetch(`${BASE_URL}/carts`, {
           method: 'POST',
           headers: { 'Content-type': 'Application/json' },
           body: JSON.stringify({

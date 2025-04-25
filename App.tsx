@@ -14,6 +14,13 @@ import Notification from './Screen/Notification';
 import { MyTheme, useTheme } from './comp/MyTheme';
 import Cart from './Screen/Cart';
 import Success from './Screen/Success';
+import Users from './ScreenAdmin/Users';
+import ADScreen from './ScreenAdmin/ADScreen';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import Products from './ScreenAdmin/Products';
+import Statistics from './ScreenAdmin/Statistics';
+import historyUser from './Screen/historyUser';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -66,6 +73,7 @@ const MyTabs = () => {
 
 const App = () => {
   return (
+    <Provider store={store}>
     <MyTheme>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="ManChao">
@@ -99,10 +107,36 @@ const App = () => {
             component={Success}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Users"
+            component={Users}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ADScreen"
+            component={ADScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Products"
+            component={Products}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Statistics"
+            component={Statistics}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="historyUser"
+            component={historyUser}
+            options={{ headerShown: false }}
+          />
           
         </Stack.Navigator>
       </NavigationContainer>
     </MyTheme>
+    </Provider>
   );
 };
 

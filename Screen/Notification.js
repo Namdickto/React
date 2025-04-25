@@ -26,7 +26,7 @@ const Notification = () => {
 
   return (
     <View style={[styles.container,{backgroundColor:theme =='light'?'white':'black'}]}>
-      <Text style={styles.header}>Thông báo</Text>
+      <Text style={[styles.header,{color:theme=='light'?'black':'red'}]}>Thông báo</Text>
       <FlatList
         data={notifications}
         keyExtractor={(item) => item.id}

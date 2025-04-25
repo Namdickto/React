@@ -29,31 +29,31 @@ const Main = () => {
       <View style={styles.settingsContainer}>
         
         {/* Block: Thông tin cá nhân */}
-        <View style={styles.block}>
-          <Text style={styles.blockTitle}>Thông tin cá nhân</Text>
-          <Text style={styles.infoText}>Họ tên: Vũ Hoàng Nam</Text>
-          <Text style={styles.infoText}>MSV: PH54320</Text>
-          <Text style={styles.infoText}>Lớp: MD19303</Text>
+        <View style={[styles.block,{backgroundColor:theme=='light'?'white':'black'}]}>
+          <Text style={[styles.blockTitle,{color:theme=='light'?'black':'white'}]}>Thông tin cá nhân</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>Họ tên: Vũ Hoàng Nam</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>MSV: PH54320</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>Lớp: MD19303</Text>
         </View>
 
         {/* Block: Thông tin điện thoại */}
-        <View style={styles.block}>
-          <Text style={styles.blockTitle}>Thông tin điện thoại</Text>
-          <Text style={styles.infoText}>Loại điện thoại: Samsung Galaxy S21</Text>
-          <Text style={styles.infoText}>CPU: Snapdragon 888</Text>
-          <Text style={styles.infoText}>RAM: 8GB</Text>
-          <Text style={styles.infoText}>Bộ nhớ trong: 128GB</Text>
+        <View style={[styles.block, {backgroundColor: theme === 'light' ? 'white' : 'black'}]}>
+          <Text style={[styles.blockTitle, {color: theme === 'light' ? 'black' : 'white'}]}>Thông tin điện thoại</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>Loại điện thoại: Samsung Galaxy S21</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>CPU: Snapdragon 888</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>RAM: 8GB</Text>
+          <Text style={[styles.infoText, {color: theme === 'light' ? '#555' : '#ccc'}]}>Bộ nhớ trong: 128GB</Text>
         </View>
 
        
-        <View style={styles.block}>
-          <Text style={styles.blockTitle}>Thiết lập </Text>
+        <View style={[styles.block, {backgroundColor: theme === 'light' ? 'white' : 'black'}]}>
+          <Text style={[styles.blockTitle, {color: theme === 'light' ? 'black' : 'white'}]}>Thiết lập</Text>
           
-          <TouchableOpacity style={styles.settingItem}>
-            <Text style={styles.settingText}>Đổi mật khẩu</Text>
+          <TouchableOpacity style={styles.settingItem} onPress={()=>{navigation.navigate('historyUser')}}>
+            <Text style={[styles.settingText, {color: theme === 'light' ? '#007BFF' : '#4DA6FF'}]}>Lịch sử đơn</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{navigation.replace('Login')}} style={[styles.settingItem, {borderBottomWidth: 0}]}>
-            <Text style={[styles.settingText, {color: 'red'}]}>Đăng xuất</Text>
+          <TouchableOpacity onPress={() => {navigation.replace('Login')}} style={[styles.settingItem, {borderBottomWidth: 0}]}>
+            <Text style={[styles.settingText, {color: theme === 'light' ? 'red' : '#FF6666'}]}>Đăng xuất</Text>
           </TouchableOpacity>
         </View>
 

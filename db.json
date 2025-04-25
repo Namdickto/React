@@ -1,17 +1,108 @@
 {
   "users": [
     {
-      "id": "d82a",
+      "id": "cff7",
       "email": "1",
       "hoten": "1",
+      "password": "1"
+    },
+    {
+      "id": "b542",
+      "email": "2",
+      "hoten": "2",
+      "password": "2"
+    },
+    {
+      "id": "5d6e",
+      "email": "22",
+      "hoten": "namdeptrai",
       "password": "1"
     }
   ],
   "carts": [
     {
-      "id": "166c",
-      "userId": "d82a",
+      "id": "0f6b",
+      "userId": "b542",
       "items": []
+    },
+    {
+      "id": "77b7",
+      "userId": "5d6e",
+      "items": []
+    }
+  ],
+  "products": [
+    {
+      "name": "Ronaldinho",
+      "image": "https://i.pinimg.com/736x/da/bb/62/dabb6226e28ae8034197a6ee930bda82.jpg",
+      "price": "300",
+      "mota": "Siêu đẹp trai",
+      "id": "1"
+    },
+    {
+      "name": "Trà sữa việt quất",
+      "image": "https://i.pinimg.com/736x/9f/be/db/9fbedb74e5f22c745e4655e115115227.jpg",
+      "price": "350",
+      "mota": "Hồng hào và dễ thương!",
+      "id": "5"
+    },
+    {
+      "id": "d05e",
+      "name": "Trà sữa chân châu",
+      "image": "https://i.pinimg.com/736x/a4/40/b7/a440b77b6831a71d890c4ad90e0d4b5e.jpg",
+      "price": "20",
+      "mota": "nhiều nuoc it chân trâu"
+    },
+    {
+      "id": "eb38",
+      "name": "Trân trâu mix 3 vị ",
+      "image": "https://i.pinimg.com/736x/21/1c/c7/211cc7d2782f704dd07a180ace4acda5.jpg",
+      "price": "30",
+      "mota": "Không ngon ko lấy tiền"
+    },
+    {
+      "id": "eb39",
+      "name": "Trân trâu mix 3 vị ",
+      "image": "https://i.pinimg.com/736x/02/f7/5a/02f75a65959ab117151c4688bf1eb071.jpg",
+      "price": "30",
+      "mota": "Không ngon ko lấy tiền"
+    },
+    {
+      "id": "dbf0",
+      "name": "Siêu trà sữa",
+      "image": "https://i.pinimg.com/736x/b8/95/57/b89557908f8f21d28469c72a603c1586.jpg",
+      "price": "55",
+      "mota": "siêu mát lanh hehehe"
+    },
+    {
+      "name": "Trà sữa new new",
+      "image": "https://i.pinimg.com/736x/3d/2c/71/3d2c71abc87afe0ad9371bfdf6223535.jpg",
+      "price": "34",
+      "mota": "hêe",
+      "id": "4beb"
+    }
+  ],
+  "history": [
+    {
+      "id": "57e9",
+      "userId": "cff7",
+      "userInfo": {
+        "name": "11",
+        "phone": "11",
+        "address": "11"
+      },
+      "items": [
+        {
+          "name": "Trà sữa việt quất",
+          "price": "350",
+          "image": "https://i.pinimg.com/736x/9f/be/db/9fbedb74e5f22c745e4655e115115227.jpg",
+          "id": "5",
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 350,
+      "date": "2025-04-18T07:49:46.100Z",
+      "isCompleted": false
     }
   ]
 }

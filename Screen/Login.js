@@ -9,27 +9,34 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {CheckBox} from 'react-native-elements/dist/checkbox/CheckBox';
+import BASE_URL from '../config/config';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/ProductReducer';
 
 const Login = () => {
   const navigation = useNavigation();
   const [isChecked, setIsChecked] = useState(false); // Trạng thái của checkbox
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const dispatch = useDispatch()
   const check = async () => {
     if (!email || !password) {
       alert("Vui lòng nhập đầy đủ email và mật khẩu!");
       return;
     }
-
+    if(email==='admin'&&password==='1'){
+      navigation.navigate('ADScreen')
+    }else{
     try {
-      // Gửi yêu cầu GET đến endpoint /users để lấy danh sách người dùng
-      const res = await fetch(`http://192.168.10.7:3000/users?email=${email}&password=${password}`);
+      const res = await fetch(`${BASE_URL}/users?email=${email}&password=${password}`);
       const users = await res.json();
 
       if (users.length > 0) {
         // Nếu tìm thấy user, chuyển hướng đến màn hình chính
         alert("Đăng nhập thành công!");
+        dispatch(setUser(users[0]))
+        console.log('Dữ liệu người dùng:', users[0]);
+        
         navigation.replace('Main');
       } else {
         // Nếu không tìm thấy user, hiển thị thông báo lỗi
@@ -38,7 +45,7 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       alert("Đã xảy ra lỗi khi đăng nhập!");
-    }
+    }}
   };
 
   return (
@@ -69,8 +76,8 @@ const Login = () => {
         title="Remember me?"
         checked={isChecked}
         onPress={() => setIsChecked(!isChecked)} // Thay đổi trạng thái khi nhấn
-        checkedIcon={<Image style={{width:20, height:20}} source={require('../img/sun.png')}/>}
-        uncheckedIcon={<Image style={{width:20, height:20}} source={require('../img/moon.png')}/>}
+        checkedIcon={<Image style={{width:20, height:20}} source={require('../img/remeber.png')}/>}
+        uncheckedIcon={<Image style={{width:20, height:20}} source={require('../img/unremember.png')}/>}
         containerStyle={styles.checkboxContainer} // Style cho container
         textStyle={styles.checkboxText} // Style cho văn bản
       />

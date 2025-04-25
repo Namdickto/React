@@ -6,3 +6,5 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 App em dùng json-server nên mình chạy 
 "npm run start" trước ạ 
+tạm thời bỏ qua validate thì tk mẫu khách hàng : tk : 1 , mk : 1
+admin : tk : admin , mk 1

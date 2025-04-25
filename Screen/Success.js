@@ -6,7 +6,7 @@ const Success = () => {
     const navigation = useNavigation()
   return (
     <View style={styles.container}>
-      <Text style={styles.successText}>Thanh toán thành công!</Text>
+      <Text style={styles.successText}>Đặt hàng thành công!</Text>
       <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Main')}>
         <Text style={styles.homeButtonText}>Quay về Trang chủ</Text>
       </TouchableOpacity>
