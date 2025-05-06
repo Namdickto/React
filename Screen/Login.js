@@ -32,14 +32,12 @@ const Login = () => {
       const users = await res.json();
 
       if (users.length > 0) {
-        // Nếu tìm thấy user, chuyển hướng đến màn hình chính
         alert("Đăng nhập thành công!");
         dispatch(setUser(users[0]))
         console.log('Dữ liệu người dùng:', users[0]);
         
         navigation.replace('Main');
       } else {
-        // Nếu không tìm thấy user, hiển thị thông báo lỗi
         alert("Email hoặc mật khẩu không đúng!");
       }
     } catch (error) {
@@ -75,11 +73,11 @@ const Login = () => {
       <CheckBox
         title="Remember me?"
         checked={isChecked}
-        onPress={() => setIsChecked(!isChecked)} // Thay đổi trạng thái khi nhấn
+        onPress={() => setIsChecked(!isChecked)} 
         checkedIcon={<Image style={{width:20, height:20}} source={require('../img/remeber.png')}/>}
         uncheckedIcon={<Image style={{width:20, height:20}} source={require('../img/unremember.png')}/>}
-        containerStyle={styles.checkboxContainer} // Style cho container
-        textStyle={styles.checkboxText} // Style cho văn bản
+        containerStyle={styles.checkboxContainer} 
+        textStyle={styles.checkboxText} 
       />
       <TouchableOpacity
         style={styles.button}

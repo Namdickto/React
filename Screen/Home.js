@@ -157,7 +157,7 @@ const userID = useSelector((state) => state.listProductInStore.user?.id); // L�
       <FlatList
         data={listProduct}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={2} // Hiển thị 2 cột
+        numColumns={2} 
         contentContainerStyle={styles.flatListContainer}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -175,12 +175,11 @@ const userID = useSelector((state) => state.listProductInStore.user?.id); // L�
         <View style={styles.fullModalContainer}>
           {isSelected && (
             <>
-              {/* Hình ảnh sản phẩm full width */}
               <ImageBackground
                 source={{ uri: isSelected.image }}
                 style={styles.modalImageBackground}
               >
-                {/* Nút quay về */}
+         
                 <TouchableOpacity
                   style={styles.backButton}
                   onPress={() => setModal(false)}
@@ -189,16 +188,16 @@ const userID = useSelector((state) => state.listProductInStore.user?.id); // L�
                 </TouchableOpacity>
               </ImageBackground>
 
-              {/* Nội dung chi tiết sản phẩm */}
+       
               <ScrollView style={styles.scrollViewContent}>
                 <View style={[styles.modalContent,{backgroundColor:theme=='light'?'white':'black'}]}>
-                  {/* Tiêu đề sản phẩm */}
+            
                   <Text style={[styles.modalTitle,{color:theme=='light'?'black':'white'}]}>{isSelected.name}</Text>
                   <Text style={[styles.modalTitle,{color:theme=='light'?'red':'white'}]}>{isSelected.price}K</Text>
-                  {/* Mô tả sản phẩm */}
+         
                   <Text style={[styles.modalDesc,{color:theme=='light'?'black':'white'}]}>{isSelected.mota}</Text>
 
-                  {/* Input bình luận */}
+
                   <TextInput
                     style={[styles.commentInput,{backgroundColor:theme=='light'?'white':'gray'}]}
                     placeholder="Nhập bình luận của bạn..."
@@ -208,18 +207,18 @@ const userID = useSelector((state) => state.listProductInStore.user?.id); // L�
                     onChangeText={setComment}
                   />
 
-                  {/* Nút gửi bình luận */}
+
                   <TouchableOpacity
                     style={styles.submitButton}
                     onPress={() => {
-                      // Chức năng gửi bình luận (để trống)
+
                       alert('Bình luận đã được gửi!');
                     }}
                   >
                     <Text style={styles.submitButtonText}>Gửi bình luận</Text>
                   </TouchableOpacity>
 
-                  {/* Nút thêm vào giỏ hàng */}
+
                   <TouchableOpacity
                     style={styles.addToCartButton}
                     onPress={() => {
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     elevation: 5,
-    backgroundColor: '#fff', // Nền trắng cho sản phẩm
+    backgroundColor: '#fff', 
   },
   lightCard: {
     backgroundColor: '#F6F6F6',
@@ -294,8 +293,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     padding: 10,
     width: 100,
-    borderRadius: 15, // Bo góc
-    overflow: 'hidden', // Đảm bảo hình ảnh bên trong cũng được bo góc
+    borderRadius: 15, 
+    overflow: 'hidden', 
   },
   timerContainer: {
     flexDirection: 'row',
